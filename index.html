@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
+</head>
+
+<body>
+    <h1 class="ui header">
+        Coin BBangDoo Miner List
+    </h1>
+    <div class="ui middle aligned divided list" id="lstMiner">
+    </div>
+    <script id="_zcoinTmpl" type="text/x-jsrender">
+        <div class="item">
+            <img class="ui avatar image" src="https://s2.coinmarketcap.com/static/img/coins/32x32/1414.png">
+            <div class="content">
+                <div class="header">{{:username}}</div>
+                <h4 class="ui {{if hashrate<=1}}red{{/if}} header">{{:hashrate}}</h4>
+            </div>
+        </div>
+    </script>
+    <script id="_ethTmpl" type="text/x-jsrender">
+        <div class="item">
+            <img class="ui avatar image" src="https://s2.coinmarketcap.com/static/img/coins/32x32/1027.png">
+            <div class="content">
+                <div class="header">{{:username}}</div>
+                <h4 class="ui {{if hashrate<=1}}red{{/if}} header">{{:hashrate}}</h4>
+            </div>
+        </div>
+    </script>
+    <script id="_xmrTmpl" type="text/x-jsrender">
+        <div class="item">
+            <img class="ui avatar image" src="https://s2.coinmarketcap.com/static/img/coins/32x32/328.png">
+            <div class="content">
+                <div class="header">{{:username}}</div>
+                <h4 class="ui {{if hashrate<=1}}red{{/if}} header">{{:hashrate}}</h4>
+            </div>
+        </div>
+    </script>
+    
+    <script>
+        var zcoinTmpl = $.templates("#_zcoinTmpl");
+        var ethTmpl = $.templates("#_ethTmpl");
+        var xmrTmpl = $.templates("#_xmrTmpl");
+        
+        $.getJSON(
+            "https://zcoin.miningpoolhub.com/index.php?page=api&action=getuserworkers&api_key=f96e1e3ef65f5e80a733f1ccc4e51b43977f8c3bbf255e07106b78e9260dde9f&id=72592&callback=?",
+            function (data) {
+                var strHtml = zcoinTmpl.render(data.getuserworkers.data);
+                $("#lstMiner").append(strHtml);
+            });
+        
+        $.getJSON(
+            "https://ethereum.miningpoolhub.com/index.php?page=api&action=getuserworkers&api_key=f96e1e3ef65f5e80a733f1ccc4e51b43977f8c3bbf255e07106b78e9260dde9f&id=72592&callback=?",
+            function (data) {
+                var strHtml = ethTmpl.render(data.getuserworkers.data);
+                $("#lstMiner").append(strHtml);
+            });
+        
+            $.getJSON(
+            "https://monero.miningpoolhub.com/index.php?page=api&action=getuserworkers&api_key=f96e1e3ef65f5e80a733f1ccc4e51b43977f8c3bbf255e07106b78e9260dde9f&id=72592&callback=?",
+            function (data) {
+                var strHtml = xmrTmpl.render(data.getuserworkers.data);
+                $("#lstMiner").append(strHtml);
+            });
+    </script>
+</body>
+
+</html>
